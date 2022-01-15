@@ -1,0 +1,82 @@
+<?php
+#!/usr/bin/env php
+/*
+ ============ {IndoSec Framework} =============
+	Coded By Arikun - IndoSec
+	Tools : MTIP CIDR C V.0.1
+	Copyrigt (C) 2022 - Nii-san Hax0r
+
+    Github : https://github.com/imyhacker
+ 
+ ============ {IndoSec Framework} =============
+*/
+
+os();
+banner();
+error_reporting(0);
+function banner()
+{
+ echo "
+    \ /
+    oVo
+\___XXX___/   MTIP CIDR C V.0.1
+ __XXXXX__    Modem Tracker IP Address CIDR C
+/__XXXXX__\   Crafted By Arikun - IndoSec
+/   XXX   \   Copyright (C) 2022 - Nii-sanHax0r
+     V        [ Auto Make File Result In This Folder ]
+ \n";
+}
+ function os()
+ {
+ 	$os = PHP_OS;
+ 	if ($os = "linux") {
+ 		system("clear");
+ 	}elseif ($os = "windows") {
+ 		system("cls");
+ 	}
+ }
+function machine($ip = null, $gw = null){
+    $host = $ip;
+    $gtw = $gw;
+    if(is_numeric($host[0])){
+    echo "Ip Address (NETWORK): $ip \n"; 
+    echo "Router Gateway (HOST): $gw \n";
+    echo "Your Path : ".dirname(__FILE__)."\n\n";
+    sleep(4);
+    echo "\n\n == Result == \n\n";
+
+    for($i = $gtw; $i <= 254; $i++){
+        exec("ping -c 2 " . $host.$i, $output, $result);
+        
+    if ($result == 0){
+        echo "[+] Live : ".$host.$i."\n";
+        $data = 'http://'.$host.$i;
+        file_put_contents('result.txt', $data."\n", FILE_APPEND);
+    }else{
+        echo "[!] ".$host.$i." [!]\n";
+    }
+    }
+    }elseif($host == 'scan'){
+        $output = passthru('nmap -v -A '. $gtw);
+        echo $output;
+    }    
+}
+
+if(!$argv[1] && !$argv[2]){
+    os();
+    banner();
+    echo "[ MODEM TRACK IP ]\n";
+    echo "Usage : php mtip [IP Network] [Host Gateway]\n";
+	echo "Ex    : php mtip 192.168.0. 1\n\n";
+    echo "[ SCAN IP By NMAP.org ]\n";
+    echo "Usage : php mtip scan [IP Address]\n";
+	echo "Ex    : php mtip scan 192.168.0.1\n\n";
+}else{
+    $ip = $argv[1];
+    $gw = $argv[2];
+    machine($ip, $gw);
+  
+}
+
+    
+    ?>
